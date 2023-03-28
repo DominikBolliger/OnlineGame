@@ -53,6 +53,7 @@ public class Handler extends Thread{
 
     public void send() {
         try {
+            clientSocket = new Socket("localhost", 54321);
             DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
             out.writeBytes("test");
         } catch (IOException e) {
