@@ -1,4 +1,6 @@
-package test.client;
+package app.client.logic;
+
+import app.client.controller.ClientController;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,12 +12,16 @@ public class ClientRunnable implements Runnable {
 
     private Socket socket;
     private BufferedReader input;
-    // private PrintWriter output;
+    private PrintWriter output;
 
-    public ClientRunnable(Socket s) throws IOException {
-        this.socket = s;
-        this.input = new BufferedReader( new InputStreamReader(socket.getInputStream()));
-        // this.output = new PrintWriter(socket.getOutputStream(),true);
+    public ClientRunnable(Socket socket) {
+        try {
+            this.socket = socket;
+            this.input = new BufferedReader( new InputStreamReader(socket.getInputStream()));
+            this.output = new PrintWriter(socket.getOutputStream(),true);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     @Override
     public void run() {
@@ -24,6 +30,7 @@ public class ClientRunnable implements Runnable {
             while(true) {
                 String response = input.readLine();
                 System.out.println(response);
+                ClientController.setLayout(response);
             }
         } catch (IOException e) {
             e.printStackTrace();

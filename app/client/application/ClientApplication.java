@@ -1,4 +1,4 @@
-package client.application;
+package app.client.application;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,10 +13,10 @@ public class ClientApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         screenSize = Screen.getPrimary().getBounds();
-        FXMLLoader loader = new FXMLLoader(ClientApplication.class.getResource("/client/view/Client-View.fxml"));
+        FXMLLoader loader = new FXMLLoader(ClientApplication.class.getResource("/app/client/view/Client-View.fxml"));
         Scene scene = new Scene(loader.load(), screenSize.getHeight()/2, screenSize.getHeight()/2);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("client");
+        primaryStage.setTitle("Client");
         primaryStage.show();
     }
     public static Rectangle2D getScreenSize() {

@@ -1,4 +1,4 @@
-package test.client;
+package app.test.client;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,17 +10,16 @@ public class Main {
 
     public static void main(String[] args) {
         try (Socket socket = new Socket("localhost", 5000)) {
-            //reading the input from server
+            //reading the input from App.client.server
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            //returning the output to the server : true statement is to flush the buffer otherwise
+            //returning the output to the App.client.server : true statement is to flush the buffer otherwise
             //we have to do it manuallyy
             PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
 
             //taking the user input
             Scanner scanner = new Scanner(System.in);
             String userInput;
-            String response;
             String clientName = "empty";
 
             ClientRunnable clientRun = new ClientRunnable(socket);
@@ -43,7 +42,7 @@ public class Main {
                     userInput = scanner.nextLine();
                     output.println(message + " " + userInput);
                     if (userInput.equals("exit")) {
-                        //reading the input from server
+                        //reading the input from App.client.server
                         break;
                     }
                 }
@@ -52,7 +51,7 @@ public class Main {
 
 
         } catch (Exception e) {
-            System.out.println("Exception occured in client main: " + e.getStackTrace());
+            System.out.println("Exception occured in App.client main: " + e.getStackTrace());
         }
     }
 }

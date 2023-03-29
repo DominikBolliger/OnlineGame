@@ -1,4 +1,4 @@
-package test.server;
+package app.test.server;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         //using serversocket as argument to automatically close the socket
-        //the port number is unique for each server
+        //the port number is unique for each App.client.server
 
         //list to add all the clients thread
         ArrayList<ServerThread> threadList = new ArrayList<>();
