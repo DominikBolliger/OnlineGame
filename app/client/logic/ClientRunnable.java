@@ -30,7 +30,6 @@ public class ClientRunnable implements Runnable {
             while(true) {
                 String response = input.readLine();
                 System.out.println(response);
-                ClientController.setLayout(response);
             }
         } catch (IOException e) {
             e.printStackTrace();
