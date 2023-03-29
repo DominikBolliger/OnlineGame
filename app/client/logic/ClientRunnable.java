@@ -29,7 +29,8 @@ public class ClientRunnable implements Runnable {
         try {
             while(true) {
                 String response = input.readLine();
-                System.out.println(response);
+                //Send coords of player to Game
+                //
             }
         } catch (IOException e) {
             e.printStackTrace();

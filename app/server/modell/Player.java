@@ -1,4 +1,4 @@
-package app.client.model;
+package app.server.modell;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;

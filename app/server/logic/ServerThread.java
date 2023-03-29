@@ -1,4 +1,4 @@
-package app.server;
+package app.server.logic;
 
 
 import java.io.BufferedReader;

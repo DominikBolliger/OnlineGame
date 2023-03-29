@@ -3,16 +3,14 @@ package app.client.model;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-import java.io.PrintWriter;
-
-public class Player {
+public class Enemy {
     private int x;
     private int y;
     private int size;
     private int xChange;
     private int yChange;
 
-    public Player(int x, int y, int size) {
+    public Enemy(int x, int y, int size) {
         this.x = x;
         this.y = y;
         this.xChange = 0;
@@ -20,15 +18,14 @@ public class Player {
         this.size = size;
     }
 
-    public void drawPlayer(GraphicsContext ctx) {
+    public void drawEnemy(GraphicsContext ctx) {
         ctx.setFill(Color.rgb(255, 0, 0));
         ctx.fillRect(x, y, size, size);
     }
 
-    public void movePlayer(PrintWriter output) {
+    public void moveEnemy() {
         x += xChange;
         y += yChange;
-        output.println(x + ";" + y);
     }
 
     public int getX() {

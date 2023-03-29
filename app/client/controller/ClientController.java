@@ -32,15 +32,15 @@ public class ClientController {
     @FXML
     public void initialize() {
         ClientController.ctx = canvas.getGraphicsContext2D();
-//        try {
-//            socket = new Socket("localhost", 5000);
-//            handler = new ClientRunnable(socket);
-//            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//            output = new PrintWriter(socket.getOutputStream(), true);
-//            new Thread(handler).start();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            socket = new Socket("localhost", 5000);
+            handler = new ClientRunnable(socket);
+            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            output = new PrintWriter(socket.getOutputStream(), true);
+            new Thread(handler).start();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static GraphicsContext getCtx() {

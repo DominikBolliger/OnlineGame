@@ -1,4 +1,6 @@
-package app.server;
+package app.server.logic;
+
+import app.init.Init;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,9 +17,11 @@ public class GameServerMain {
                 System.out.println("waiting for connections");
                 Socket socket = serversocket.accept();
                 System.out.println("Client connected " + socket.getInetAddress());
-                ServerThread serverThread = new ServerThread(socket, threadList);
-                threadList.add(serverThread);
-                serverThread.start();
+                if (threadList.size() <= Init.AMOUNT_PLAYER) {
+                    ServerThread serverThread = new ServerThread(socket, threadList);
+                    threadList.add(serverThread);
+                    serverThread.start();
+                }
             }
         } catch (Exception e) {
             System.out.println("Error occured in main: " + e.getStackTrace());
