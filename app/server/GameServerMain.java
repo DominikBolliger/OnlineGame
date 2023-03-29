@@ -5,6 +5,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class GameServerMain {
+
+    private static String layout = "xxxxxxxxxxxxxxxxxxxxxxxxx";
+
     public static void main(String[] args) {
         ArrayList<ServerThread> threadList = new ArrayList<>();
         try (ServerSocket serversocket = new ServerSocket(5000)){
@@ -19,5 +22,13 @@ public class GameServerMain {
         } catch (Exception e) {
             System.out.println("Error occured in main: " + e.getStackTrace());
         }
+    }
+
+    public static String getLayout() {
+        return layout;
+    }
+
+    public static void setLayout(String layout) {
+        GameServerMain.layout = layout;
     }
 }

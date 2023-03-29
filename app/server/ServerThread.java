@@ -12,7 +12,6 @@ public class ServerThread extends Thread {
     private Socket socket;
     private ArrayList<ServerThread> threadList;
     private PrintWriter output;
-    private String layout = "xxxxxxxxxxxxxxxxxxxxxxxxx";
 
     public ServerThread(Socket socket, ArrayList<ServerThread> threads) {
         this.socket = socket;
@@ -29,7 +28,7 @@ public class ServerThread extends Thread {
             while(true) {
                 String outputString = input.readLine();
                 System.out.println("Server received " + outputString);
-                layout = outputString;
+                GameServerMain.setLayout(outputString);
                 printToALlClients(outputString);
 
             }
@@ -39,7 +38,7 @@ public class ServerThread extends Thread {
     }
 
     private void initiSend() {
-            printToALlClients(layout);
+            printToALlClients(GameServerMain.getLayout());
     }
 
     private void printToALlClients(String outputString) {
@@ -48,12 +47,12 @@ public class ServerThread extends Thread {
         }
     }
 
-    private void printToRecipients(String outputString) {
-        for( ServerThread sT: threadList) {
-            if (sT != this){
-                sT.output.println(outputString);
-                System.out.println("sent to: " + sT.socket.getInetAddress());
-            }
-        }
-    }
+//    private void printToRecipients(String outputString) {
+//        for( ServerThread sT: threadList) {
+//            if (sT != this){
+//                sT.output.println(outputString);
+//                System.out.println("sent to: " + sT.socket.getInetAddress());
+//            }
+//        }
+//    }
 }
