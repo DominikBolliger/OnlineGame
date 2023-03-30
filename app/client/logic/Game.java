@@ -1,5 +1,6 @@
 package app.client.logic;
 
+import app.client.model.Enemy;
 import app.init.Init;
 import app.init.Util;
 import app.client.model.Player;
@@ -8,6 +9,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game extends Thread {
 
@@ -16,6 +19,7 @@ public class Game extends Thread {
     private Player player;
     private PrintWriter output;
     private GraphicsContext ctx;
+    private static List<Enemy> enemyList = new ArrayList<>();
 
     public Game(GraphicsContext ctx, Canvas canvas, Scene scene, PrintWriter output){
         this.canvas = canvas;
@@ -73,6 +77,9 @@ public class Game extends Thread {
     private void draw() {
         clearCanvas();
         player.drawPlayer(ctx);
+        for (Enemy enemy : enemyList){
+            enemy.drawEnemy(ctx);
+        }
     }
 
     private void update() {
@@ -87,8 +94,11 @@ public class Game extends Thread {
         ctx.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
-    public static void createEnemy(){
-
+    public static List<Enemy> getEnemyList() {
+        return enemyList;
     }
 
+    public static void setEnemyList(Enemy enemy) {
+        Game.enemyList.add(enemy);
+    }
 }

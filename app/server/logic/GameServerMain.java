@@ -1,38 +1,30 @@
 package app.server.logic;
 
 import app.init.Init;
+import app.server.modell.Player;
 
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameServerMain {
 
-    private static String layout = "xxxxxxxxxxxxxxxxxxxxxxxxx";
-
     public static void main(String[] args) {
-        ArrayList<ServerThread> threadList = new ArrayList<>();
+        List<Player> playerList = new ArrayList<>();
         try (ServerSocket serversocket = new ServerSocket(5000)){
             while(true) {
                 System.out.println("waiting for connections");
                 Socket socket = serversocket.accept();
                 System.out.println("Client connected " + socket.getInetAddress());
-                if (threadList.size() <= Init.AMOUNT_PLAYER) {
-                    ServerThread serverThread = new ServerThread(socket, threadList);
-                    threadList.add(serverThread);
-                    serverThread.start();
+                if (playerList.size() <= Init.AMOUNT_PLAYER) {
+                    Player player = new Player(playerList.size() + 1, new ServerThread(socket, playerList));
+                    playerList.add(player);
+                    player.getThread().start();
                 }
             }
         } catch (Exception e) {
             System.out.println("Error occured in main: " + e.getStackTrace());
         }
-    }
-
-    public static String getLayout() {
-        return layout;
-    }
-
-    public static void setLayout(String layout) {
-        GameServerMain.layout = layout;
     }
 }

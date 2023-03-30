@@ -1,5 +1,6 @@
 package app.client.application;
 
+import app.client.logic.ConfigData;
 import app.init.Init;
 import app.client.logic.ClientRunnable;
 import app.client.logic.Game;
@@ -27,6 +28,9 @@ public class ClientApplication extends Application {
     private BufferedReader input;
     @Override
     public void start(Stage primaryStage) throws Exception {
+        ConfigData.loadData();
+        int port = ConfigData.getPort();
+        String IP = ConfigData.getIP();
         canvas = new Canvas(Init.CANVAS_SIZE, Init.CANVAS_SIZE);
         ctx = canvas.getGraphicsContext2D();
         root = new Group(canvas);
@@ -35,7 +39,7 @@ public class ClientApplication extends Application {
         primaryStage.setTitle("Client");
         primaryStage.show();
         try {
-            socket = new Socket("localhost", 5000);
+            socket = new Socket(IP, port);
             handler = new ClientRunnable(socket);
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(), true);

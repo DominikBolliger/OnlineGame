@@ -1,49 +1,96 @@
 package app.server.logic;
 
 
+import app.server.modell.Player;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class ServerThread extends Thread {
     private Socket socket;
-    private ArrayList<ServerThread> threadList;
+    private List<Player> playerList;
     private PrintWriter output;
+    private BufferedReader input;
 
-    public ServerThread(Socket socket, ArrayList<ServerThread> threads) {
+    public ServerThread(Socket socket, List<Player> players) {
         this.socket = socket;
-        this.threadList = threads;
+        this.playerList = players;
+        try {
+            this.output = new PrintWriter(socket.getOutputStream(), true);
+            this.input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void run() {
         try {
-            BufferedReader input = new BufferedReader( new InputStreamReader(socket.getInputStream()));
-            output = new PrintWriter(socket.getOutputStream(),true);
-            initiSend();
-
-            while(true) {
+            newPlayerSend();
+            activePlayersSend();
+            while (true) {
                 String outputString = input.readLine();
-                System.out.println("Server received " + outputString);
-                GameServerMain.setLayout(outputString);
-                printToALlClients(outputString);
-
+                int playerNumber = getPlayerNumber();
+                System.out.println("Server received " + outputString + " from Player: " + playerNumber);
+                sendPositionsToPlayers(playerNumber, outputString);
             }
         } catch (Exception e) {
-            System.out.println("Error occured " +e.getStackTrace());
+            System.out.println("Error occured " + e.getStackTrace());
         }
     }
 
-    private void initiSend() {
-            printToALlClients(GameServerMain.getLayout());
+    private void newPlayerSend() {
+        for (Player player : playerList){
+            if (player.getThread() != this){
+                player.getThread().output.println("NewPlayer;" + getPlayerNumber());
+            }
+        }
+    }
+
+    private void activePlayersSend(){
+        Player thisPlayer = getPlayer();
+        for (Player player : playerList){
+            if (player != getPlayer()){
+                thisPlayer.getThread().output.println("ActivePlayer;" + player.getPlayerNumber());
+            }
+        }
+    }
+
+    private void sendPositionsToPlayers(int playerNumber, String pos) {
+        for (Player player : playerList){
+            if (player.getThread() != this){
+                player.getThread().output.println("PlayerInfo;" + playerNumber + ";Pos;" + pos);
+            }
+        }
+    }
+
+    private int getPlayerNumber() {
+        int playerNumber = 0;
+        for (Player player : playerList) {
+            if (player.getThread() == this){
+                playerNumber = player.getPlayerNumber();
+            }
+        }
+        return playerNumber;
+    }
+
+    private Player getPlayer(){
+        Player thisPlayer = null;
+        for (Player player : playerList){
+            if (player.getThread() == this) {
+                thisPlayer = player;
+            }
+        }
+        return thisPlayer;
     }
 
     private void printToALlClients(String outputString) {
-        for( ServerThread sT: threadList) {
-            sT.output.println(outputString);
+        for (Player player : playerList) {
+            player.getThread().output.println(outputString);
         }
     }
 

@@ -10,17 +10,21 @@ public class Enemy {
     private int xChange;
     private int yChange;
 
-    public Enemy(int x, int y, int size) {
+    private int enemyNumber;
+
+    public Enemy(int x, int y, int size, int enemyNumber) {
         this.x = x;
         this.y = y;
         this.xChange = 0;
         this.yChange = 0;
         this.size = size;
+        this.enemyNumber = enemyNumber;
     }
 
     public void drawEnemy(GraphicsContext ctx) {
-        ctx.setFill(Color.rgb(255, 0, 0));
+        ctx.setFill(Color.rgb(0, 255, 0));
         ctx.fillRect(x, y, size, size);
+        ctx.fillText(String.valueOf(enemyNumber), x, y - 5);
     }
 
     public void moveEnemy() {
@@ -62,5 +66,9 @@ public class Enemy {
 
     public void setyChange(int yChange) {
         this.yChange = yChange;
+    }
+
+    public int getEnemyNumber() {
+        return enemyNumber;
     }
 }
