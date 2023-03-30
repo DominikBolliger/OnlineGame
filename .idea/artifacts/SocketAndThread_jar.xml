@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SocketAndThread:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SocketAndThread_jar</output-path>
+    <root id="archive" name="SocketAndThread.jar">
+      <element id="module-output" name="SocketAndThread" />
+    </root>
+  </artifact>
+</component>
